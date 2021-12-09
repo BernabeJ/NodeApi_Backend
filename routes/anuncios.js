@@ -6,6 +6,11 @@ const Anuncio = require('mongoose').model('Anuncio');
 
 /* GET anuncios page. */
 router.get('/', async function (req, res, next) {
+  if (!req.session.usuarioLogado) {
+    res.redirect('/login');
+    return;
+  }
+
   try {
     const start = parseInt(req.query.start) || 0;
     const limit = parseInt(req.query.limit) || 1000; // nuestro api devuelve max 1000 registros

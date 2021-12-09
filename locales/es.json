@@ -4,5 +4,6 @@
 	"not_valid": "No válido",
 	"generic": "Hubo un error: {{err}}",
 	"Welcome to": "Bienvenido a",
-	"Welcome To NodePop": "Bienvenido a NodePop"
+	"Welcome To NodePop": "Bienvenido a NodePop",
+	"Invalid credentials": "Invalid credentials"
 }

@@ -5,6 +5,9 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const LoginController = require('./controllers/loginController');
+
 
 /* jshint ignore:start */
 const db = require('./lib/connectMongoose');
@@ -32,10 +35,28 @@ app.use(i18n.init);
 // Global Template variables
 app.locals.title = 'NodePop';
 
-// Web
+//Setup de sesiones del Website
+app.use(session({
+  name: 'nodepop-session',
+  secret: '`8#4>+P`kU<yK67D]Qr-"ACNcU^vRyJDzSRB{SWZm{Zf7,;X=9EqTZJ$jk.8.e+',
+  saveUninitialized: true,
+  resave: false,
+  cookie: {
+    maxAge: 100 * 60 * 60 * 24 * 2 // dos dias de inactividad
+  }
+
+}))
+
+
+// Rutas Website
+const loginController = new LoginController();
 app.use('/', require('./routes/index'));
 app.use('/anuncios', require('./routes/anuncios'));
 app.use('/change-locale', require('./routes/change-locale'));
+
+//Utilizamos concepto de controladores
+app.get('/login', loginController.index);
+app.post('/login', loginController.post);
 
 // API v1
 app.use('/apiv1/anuncios', require('./routes/apiv1/anuncios'));

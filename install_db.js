@@ -64,11 +64,11 @@ async function initUsuarios() {
   const { deletedCount } = await Usuario.deleteMany();
   const result = await Usuario.insertMany([{
     email: 'admin@example.com',
-    password: '1234'
+    password: await Usuario.hashPassword('1234')
   },
   {
     email: 'admin2@example.com',
-    password: '1234'
+    password: await Usuario.hashPassword('1234')
 
   }
   ]);
