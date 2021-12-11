@@ -26,7 +26,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.14",
     "morgan": "^1.10.0",
+    "multer": "^1.4.4",
     "serve-favicon": "^2.5.0",
+    "sharp": "^0.29.3",
     "validator": "^13.7.0"
   },
   "devDependencies": {

@@ -4,6 +4,10 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Anuncio = mongoose.model('Anuncio');
+const bodyParser = require('body-parser');
+// const multer = require('multer');
+// const upload = multer({ dest: './public/images/anuncios' });
+const controller = require('../../controllers/upload')
 
 router.get('/', (req, res, next) => {
 
@@ -52,3 +56,62 @@ router.get('/tags', function (req, res) {
 });
 
 module.exports = router;
+
+//crear un anuncio
+
+//POST /api/anuncios(body)
+// Crear un anuncio
+
+router.post('/', controller.upload, async (req, res, next) => {
+    try {
+      const anuncioData = req.body  
+      const foto = req.file.filename
+      const anuncioFinal = {...anuncioData, foto}
+      
+      const anuncio = new Anuncio(anuncioFinal); //creo un objeto de tipo Anuncio en Memoria
+      const anuncioCreado = await anuncio.save(); // Lo guardo en la base de datos
+      res.status(201).json({ anuncioCreado });
+      console.log(anuncioFinal);
+
+    } catch (err) {
+        next(err)
+    }
+});
+
+//DELETE /api/anuncios:id
+// Elimina un anuncio
+router.delete('/:id', async (req, res, next) => {
+    try {
+        
+        const _id = req.params.id;
+        await Anuncio.deleteOne({ _id: _id });
+        res.json();
+
+    } catch (err) {
+        next(err);
+    };
+});
+
+//PUT /api/anuncios:id (body)
+//Actualizar un anuncio
+
+router.put('/:id', async (req, res, next) => {
+    try {
+      
+        const _id = req.params.id;
+        const anuncioData = req.body;
+        const anuncioActualizado = await Anuncio.findOneAndUpdate({ _id: _id }, anuncioData, {
+            new: true, // esto es para que me devuelva el estado final del documento del anuncio
+        });
+
+        if (!anuncioActualizado) {
+            res.status(404).json({ error: 'not found' });
+            return
+        }
+        res.json({ result: anuncioActualizado });
+
+    } catch (err) {
+        next(err);
+    };
+})
+
