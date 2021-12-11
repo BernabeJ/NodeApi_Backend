@@ -5,5 +5,7 @@
 	"generic": "There was an error: {{err}}",
 	"Welcome to": "Welcome to",
 	"Welcome To NodePop": "Welcome To NodePop",
-	"Invalid credentials": "Invalid credentials"
+	"Invalid credentials": "Invalid credentials",
+	"Announcements": "Announcements",
+	"Logout": "Logout"
 }

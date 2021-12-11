@@ -7,6 +7,10 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const LoginController = require('./controllers/loginController');
+const sessionAuth = require('./lib/sessionAuthMiddleware');
+const jwtAuth = require('./lib/jwtAuthMiddleware');
+const MongoStore = require('connect-mongo');
+
 
 
 /* jshint ignore:start */
@@ -31,9 +35,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Setup de i18n
 const i18n = require('./lib/i18nConfigure');
+const jwtAuthMiddleware = require('./lib/jwtAuthMiddleware');
 app.use(i18n.init);
 // Global Template variables
 app.locals.title = 'NodePop';
+
 
 //Setup de sesiones del Website
 app.use(session({
@@ -43,23 +49,35 @@ app.use(session({
   resave: false,
   cookie: {
     maxAge: 100 * 60 * 60 * 24 * 2 // dos dias de inactividad
-  }
+  },
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_CONNECTION_STRING
+  })
 
-}))
+}));
+
+//hacemos disponible la sesión en todas las vistas
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+})
 
 
 // Rutas Website
 const loginController = new LoginController();
 app.use('/', require('./routes/index'));
-app.use('/anuncios', require('./routes/anuncios'));
+app.use('/anuncios', sessionAuth, require('./routes/anuncios'));
 app.use('/change-locale', require('./routes/change-locale'));
+
 
 //Utilizamos concepto de controladores
 app.get('/login', loginController.index);
 app.post('/login', loginController.post);
+app.get('/logout', loginController.logout);
 
-// API v1
-app.use('/apiv1/anuncios', require('./routes/apiv1/anuncios'));
+// API 
+app.use('/api/anuncios', jwtAuth,require('./routes/api/anuncios'));
+app.post('/api/authenticate', loginController.postJWT);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -6,10 +6,8 @@ const Anuncio = require('mongoose').model('Anuncio');
 
 /* GET anuncios page. */
 router.get('/', async function (req, res, next) {
-  if (!req.session.usuarioLogado) {
-    res.redirect('/login');
-    return;
-  }
+  
+ 
 
   try {
     const start = parseInt(req.query.start) || 0;
