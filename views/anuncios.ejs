@@ -1,5 +1,12 @@
 <% include _header %>
-
+  <!-- Masthead
+  <header class="masthead">
+    <div class="container">
+      <div class="masthead-subheading">
+        <%= __('Welcome To NodePop') %>
+      </div>
+    </div>
+  </header> -->
   <section class="page-section" id="services">
 
     <div class="navbar navbar-default navbar-fixed-top">
@@ -11,7 +18,9 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1>Lista de anuncios</h1>
+          <h1>
+            <%=__('Announcements List') %>
+          </h1>
           <p class="lead">Listando: <%= anuncios.length %> de <%= total %>
           </p>
         </div>
@@ -54,20 +63,33 @@
             </tbody>
           </table>
 
-          <p>Ejemplos:</p>
+          <p>
+            <%= __('Examples: ')%></p>
 
           <ul>
-            <li><a href="?">Todos (max. 1000)</a></li>
-            <li><a href="?start=2&limit=2">Paginado</a></li>
-            <li><a href="?sort=precio">Ordenado por precio ascendente</a></li>
-            <li><a href="?sort=-precio">Ordenado por precio descendente</a></li>
-            <li><a href="?tag=mobile">Con tag mobile</a></li>
-          </ul>
+            <li><a href="?">
+                <%= __(' All') %> (max. 1000)
+              </a></li>
+              <li><a href="?start=2&limit=2">
+                  <%=__('Paged') %>
+                </a></li>
+              <li><a href="?sort=precio">
+                  <%= __('Sorted by ascending price') %>
+                </a></li>
+              <li><a href="?sort=-precio">
+                  <%= __('Sorted by descending price') %>
+                </a></li>
+              <li><a href="?tag=mobile">
+                  <%= __('with mobile tag')%>
+                </a></li>
+              </ul>
 
         </div>
       </div>
 
-      <a href="/">Volver a la home</a>
+      <a href="/">
+        <%= __('Back to the home') %>
+      </a>
 
     </div>
   </section>

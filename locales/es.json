@@ -7,5 +7,20 @@
 	"Welcome To NodePop": "Bienvenido a NodePop",
 	"Invalid credentials": "Credenciales Invalidas",
 	"Announcements": "Anuncios",
-	"Logout": "Logout"
+	"Logout": "Logout",
+	"Announcements List": "Lista de Anuncios",
+	"Tell Me More": "Mas Sobre Nosotros",
+	"Services": "Servicios",
+	"Responsive Design": "Diseño Responsivo",
+	"Web Security": "Seguridad en la Web",
+	"E-Commerce": "Comercio Electrónico",
+	"Your shopping place": "Tu Lugar de Compras",
+	"All": "Todos",
+	"Examples: ": "Ejemplos: ",
+	" All": " Todo",
+	"Paged": "Paginado",
+	"Sorted by ascending price": "Ordenado por precio ascendente",
+	"Sorted by descending price": "Ordenado por precio descendente",
+	"with mobile tag": "Con mobile tag",
+	"Back to the home": "Volver al inicio"
 }
