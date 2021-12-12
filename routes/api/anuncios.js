@@ -7,7 +7,8 @@ const Anuncio = mongoose.model('Anuncio');
 const bodyParser = require('body-parser');
 // const multer = require('multer');
 // const upload = multer({ dest: './public/images/anuncios' });
-const controller = require('../../controllers/upload')
+const controller = require('../../controllers/upload');
+
 
 router.get('/', (req, res, next) => {
 
@@ -66,7 +67,9 @@ router.post('/', controller.upload, async (req, res, next) => {
     try {
       const anuncioData = req.body  
       const foto = req.file.filename
-      const anuncioFinal = {...anuncioData, foto}
+      const anuncioFinal = { ...anuncioData, foto }
+      controller.helperImg(req.file.path, `resize-${req.file.filename}`,100);
+      console.log(req.file)
       
       const anuncio = new Anuncio(anuncioFinal); //creo un objeto de tipo Anuncio en Memoria
       const anuncioCreado = await anuncio.save(); // Lo guardo en la base de datos
