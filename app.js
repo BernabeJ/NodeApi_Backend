@@ -10,7 +10,9 @@ const LoginController = require('./controllers/loginController');
 const sessionAuth = require('./lib/sessionAuthMiddleware');
 const jwtAuth = require('./lib/jwtAuthMiddleware');
 const MongoStore = require('connect-mongo');
-const controller = require('./microservicio/upload')
+const controller = require('./microservicio/upload');
+
+
 
 
 
@@ -92,8 +94,9 @@ app.post('/login', loginController.post);
 app.get('/logout', loginController.logout);
 
 
+
 // API 
-app.use('/api/anuncios', jwtAuth, require('./routes/api/anuncios'));
+app.use('/api/anuncios', jwtAuth,  require('./routes/api/anuncios'));
 // app.post('/api/anuncios', controller.upload, controller.uploadFile, require('./routes/api/anuncios'))
 // app.use('/api/anuncios', jwtAuth, controller.upload,controller.uploadFile, require('./routes/api/anuncios'));
 // app.post('/api/anuncios', jwtAuth, require('./routes/api/anuncios'),upload.single('foto'),(req, res) => {

@@ -5,9 +5,19 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Anuncio = mongoose.model('Anuncio');
 const bodyParser = require('body-parser');
-// const multer = require('multer');
-// const upload = multer({ dest: './public/images/anuncios' });
-const controller = require('../../microservicio/upload');
+const miniaturaRequester = require('../../microservicio/publisher');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+	destination: "./public/images/anuncios",
+	filename: function (req, file, cb) {
+		cb(null, file.originalname);
+	},
+});
+const upload = multer({ storage: storage });
+
+
+
 
 
 router.get('/', (req, res, next) => {
@@ -63,13 +73,14 @@ module.exports = router;
 //POST /api/anuncios(body)
 // Crear un anuncio
 
-router.post('/', controller.upload, async (req, res, next) => {
+router.post('/', upload.single("foto"),  async (req, res, next) => {
     try {
-      const anuncioData = req.body  
-      const foto = req.file.filename
+      const anuncioData = req.body;
+      const foto = req.file.originalname;
+      console.log('imagen alojada en',req.file.path)
+      miniaturaRequester(foto);
       const anuncioFinal = { ...anuncioData, foto }
-      controller.helperImg(req.file.path, `resize-${req.file.filename}`);
-      console.log(req.file.path)
+    
       
       const anuncio = new Anuncio(anuncioFinal); //creo un objeto de tipo Anuncio en Memoria
       const anuncioCreado = await anuncio.save(); // Lo guardo en la base de datos

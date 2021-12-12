@@ -1,42 +1,27 @@
-'use strict';
-//Servicio de redimensionado de imagen
+"use strict";
 
-const {Responder} = require('cote');
-const multer = require('multer')
-const sharp = require('sharp')
+const { Responder } = require("cote");
+var Jimp = require("jimp");
 
-//declarar el microservicio
+// declaramos el microservicio
 
-const responder = new Responder({ name: 'servicio de redimensionado' });
+const responder = new Responder({ name: "convertir-imagen" });
 
-//almacen de datos del microservicio
+// lógica del microservicio
 
+responder.on("convertir-miniatura", async (req, done) => {
+    const { foto } = req;
+    const fotoPath = (`public/images/anuncios/${foto}`);
 
-//logica del microservicio
-responder.on('convertir-imagen', (req, done) => {
-    
-})
-
-const helperImg = (filePath, filename, size = 100) => {
-    return sharp(filePath)
-        .resize(100,100)
-        .toFile(`./public/images/resize/${filename}`)
-}
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/images/anuncios')
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`)
-    }
-})
-
-const upload = multer({ storage: storage })
-
-exports.upload = upload.single('foto')
-exports.helperImg = helperImg
-
-exports.uploadFile = (req, res) => {
-    res.send({ data: 'Enviar un archivo' })
-}
+    Jimp.read(fotoPath)
+        .then((fotoToThumbnail) => {
+            fotoToThumbnail
+                .resize(100, 100)
+                .write(`public/images/resize/miniatura_${foto}`);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    const result = `imagen convertida en public/images/resize/miniatura ${foto}`;
+	await done(result);
+});
