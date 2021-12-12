@@ -10,7 +10,7 @@ const LoginController = require('./controllers/loginController');
 const sessionAuth = require('./lib/sessionAuthMiddleware');
 const jwtAuth = require('./lib/jwtAuthMiddleware');
 const MongoStore = require('connect-mongo');
-const controller = require('./controllers/upload')
+const controller = require('./microservicio/upload')
 
 
 

@@ -1,5 +1,21 @@
+'use strict';
+//Servicio de redimensionado de imagen
+
+const {Responder} = require('cote');
 const multer = require('multer')
 const sharp = require('sharp')
+
+//declarar el microservicio
+
+const responder = new Responder({ name: 'servicio de redimensionado' });
+
+//almacen de datos del microservicio
+
+
+//logica del microservicio
+responder.on('convertir-imagen', (req, done) => {
+    
+})
 
 const helperImg = (filePath, filename, size = 100) => {
     return sharp(filePath)
