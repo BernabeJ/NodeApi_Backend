@@ -68,13 +68,14 @@ router.post('/', controller.upload, async (req, res, next) => {
       const anuncioData = req.body  
       const foto = req.file.filename
       const anuncioFinal = { ...anuncioData, foto }
-      controller.helperImg(req.file.path, `resize-${req.file.filename}`,100);
+      controller.helperImg(req.file.path, `resize-${req.file.filename}`);
       console.log(req.file)
       
       const anuncio = new Anuncio(anuncioFinal); //creo un objeto de tipo Anuncio en Memoria
       const anuncioCreado = await anuncio.save(); // Lo guardo en la base de datos
       res.status(201).json({ anuncioCreado });
       console.log(anuncioFinal);
+  
 
     } catch (err) {
         next(err)
